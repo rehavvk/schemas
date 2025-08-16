@@ -16,7 +16,7 @@ namespace Scaffold.Schemas
             {
                 if (types == null)
                 {
-                    types = Collection.Where(s => s != null).Select(s => s?.GetType()).ToList();
+                    types = Collection.Where(s => s != null).Select(s => s.GetType()).ToList();
                 }
                 return types;
             }
@@ -28,7 +28,7 @@ namespace Scaffold.Schemas
         {
             if (!typeof(Schema).IsAssignableFrom(schema))
             {
-                Debug.Log($"schema object you are trying to add does not inherint from SCHEMA");
+                Debug.Log($"schema object you are trying to add does not inherit from SCHEMA");
                 return false;
             }
             Types.Add(schema);
@@ -53,17 +53,17 @@ namespace Scaffold.Schemas
         {
             if (!Types.Contains(schemaType))
             {
-                schema = default;
+                schema = null;
                 return false;
             }
 
-            schema = Collection.Find(t => t.GetType() == schemaType);
+            schema = Collection.Find(s => s?.GetType() == schemaType);
             return true;
         }
 
         public List<Schema> GetSchemas(Type schema)
         {
-            return Collection.Where(s => schema.IsAssignableFrom(s?.GetType())).ToList();
+            return Collection.Where(s => s != null && schema.IsInstanceOfType(s)).ToList();
         }
 
         public bool Contains(Type schema)

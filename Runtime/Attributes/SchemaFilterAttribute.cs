@@ -8,11 +8,11 @@ namespace Scaffold.Schemas
     [AttributeUsage(AttributeTargets.Class)]
     public class SchemaFilterAttribute : Attribute
     {
-        public SchemaFilterAttribute(Type baseSchemaType)
+        public SchemaFilterAttribute(params Type[] schemaTypes)
         {
-            BaseSchemaType = baseSchemaType;
+            SchemaTypes = schemaTypes;
         }
 
-        public Type BaseSchemaType { get; private set; }
+        public Type[] SchemaTypes { get; private set; }
     }
 }

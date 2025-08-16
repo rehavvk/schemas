@@ -49,8 +49,21 @@ namespace Scaffold.Schemas.Editor
         public List<Type> GetSchemaOptions()
         {
             SchemaFilterAttribute schemaFilter = SchemaObject.GetType().GetCustomAttribute<SchemaFilterAttribute>(true);
-            Type baseType = schemaFilter != null ? schemaFilter.BaseSchemaType : typeof(Schema);
-            return SchemaCacheUtility.GetDerivedTypes(baseType);
+
+            if (schemaFilter == null)
+            {
+                return SchemaCacheUtility.GetDerivedTypes(typeof(Schema));
+            }
+            
+            List<Type> derivedTypes = new();
+
+            for (int i = 0; i < schemaFilter.SchemaTypes.Length; i++)
+            {
+                Type baseType = schemaFilter.SchemaTypes[i];
+                derivedTypes.AddRange(SchemaCacheUtility.GetDerivedTypes(baseType));
+            }
+            
+            return derivedTypes;
         }
 
         public bool CanAddType(Type type)

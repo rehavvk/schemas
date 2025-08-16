@@ -9,6 +9,10 @@ namespace Scaffold.Schemas
     public abstract class SchemaObject : ScriptableObject
     {
         public IReadOnlyList<Schema> Schemas => schemas.Collection;
+        
+#if ODIN_INSPECTOR_3_1
+        [HideInInspector]
+#endif
         [SerializeReference] private SchemaSet schemas = new SchemaSet();
 
         public bool TryGetSchema<T>(out T schema) where T : Schema
@@ -63,11 +67,6 @@ namespace Scaffold.Schemas
         public bool HasSchema(Type type)
         {
             return schemas.Contains(type);
-        }
-
-        public void Reset()
-        {
-            Debug.Log(1);
         }
     }
 }
